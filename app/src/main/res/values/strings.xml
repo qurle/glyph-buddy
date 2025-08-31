@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Glyph Buddy</string>
+
+    <string name="toy_name_buddy">Glyph Buddy</string>
+    <string name="toy_summary_buddy">A little glyph buddy to live in your matrix</string>
+
+    <string name="toy_name_counter">Counter Demo</string>
+    <string name="toy_summary_counter">A simple counting thing</string>
+
+
+    <string name="toy_name_sine">Animation Demo</string>
+    <string name="toy_summary_sine">Animates the glyph matrix.</string>
+
+    <string name="toy_name_noise">Glyph Button Demo</string>
+    <string name="toy_summary_noise">Activates the glyph matrix when the glyph button is pressed.</string>
+</resources>
