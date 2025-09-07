@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Nothing Android SDK Demo"
+rootProject.name = "Glyph Buddy"
 include(":app")
  

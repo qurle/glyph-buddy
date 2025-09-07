@@ -10,15 +10,24 @@ import kotlin.random.Random
 class BuddyFace(context: Context) {
 
     private val drawableBuilder = DrawableBuilder(context)
-
     private val lEye = Eye(4, 9)
     private val rEye = Eye(15, 9)
-
     private var drawable = this.default()
+
+    private val default = drawableBuilder
+        .add(R.drawable.buddy_eye_default_open, lEye.left, lEye.top)
+        .clone()
+        .mirror()
+        .build()
+
+    private val closedR = drawableBuilder
+        .add(R.drawable.buddy_eye_default_open, lEye.left, lEye.top)
+        .add(R.drawable.buddy_eye_default_closed, rEye.left, rEye.top + 2)
+        .build()
 
     fun default(): Drawable {
         drawable = drawableBuilder
-            .add(R.drawable.buddy_eye_default, lEye.left, lEye.top)
+            .add(R.drawable.buddy_eye_default_open, lEye.left, lEye.top)
             .clone()
             .mirror()
             .build()
@@ -27,8 +36,8 @@ class BuddyFace(context: Context) {
 
     fun wink(): Drawable {
         drawable = drawableBuilder
-            .add(R.drawable.buddy_eye_default, lEye.left, lEye.top)
-            .add(R.drawable.buddy_eye_blink, rEye.left, rEye.top)
+            .add(R.drawable.buddy_eye_default_open, lEye.left, lEye.top)
+            .add(R.drawable.buddy_eye_default_closed, rEye.left, rEye.top)
             .build()
         return drawable
     }
@@ -38,9 +47,9 @@ class BuddyFace(context: Context) {
 //    }
 
 
-    fun sideEye(): Drawable {
+    fun lookAround(): Drawable {
         val randomNumber =
-            Random.nextInt()
+            Random.nextDouble()
 
         val direction = when {
             randomNumber < 0.4 -> -1     // left 40%
@@ -58,7 +67,7 @@ class BuddyFace(context: Context) {
         when (tiredness) {
             1 -> {
                 drawable = drawableBuilder
-                    .add(R.drawable.buddy_eye_tired_1, lEye.left, lEye.top)
+                    .add(R.drawable.buddy_eye_tired_1_open, lEye.left, lEye.top)
                     .clone()
                     .mirror()
                     .build()
@@ -67,7 +76,7 @@ class BuddyFace(context: Context) {
 
             2 -> {
                 drawable = drawableBuilder
-                    .add(R.drawable.buddy_eye_tired_2, lEye.left, lEye.top)
+                    .add(R.drawable.buddy_eye_tired_2_open, lEye.left, lEye.top)
                     .move(1, 1)
                     .clone()
                     .mirror()

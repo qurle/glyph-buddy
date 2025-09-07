@@ -33,7 +33,7 @@
 
         <!-- Buddy Service -->
         <service
-            android:name="net.qurle.glyphs.toys.buddy.BuddyService"
+            android:name="net.qurle.glyphs.toys.buddy.Service"
             android:exported="true"
             tools:ignore="ExportedService">
             <intent-filter>
@@ -51,6 +51,9 @@
                 android:resource="@string/toy_summary_buddy" />
             <meta-data
                 android:name="com.nothing.glyph.toy.longpress"
+                android:value="1" />
+            <meta-data
+                android:name="com.nothing.glyph.toy.aod_support"
                 android:value="1" />
         </service>
 
