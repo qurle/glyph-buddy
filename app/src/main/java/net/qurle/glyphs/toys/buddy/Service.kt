@@ -28,9 +28,9 @@ class Service : GlyphMatrixService("Glyph-Buddy") {
         this.gmm = glyphMatrixManager
         eventHandler = EventHandler(scope, context, gmm)
         eventHandler.startEventLoop()
-        batteryReceiver = createBatteryReceiver { state ->
+        batteryReceiver = createBatteryReceiver { state, mood, batteryStatus ->
             if (!isInitialized()) return@createBatteryReceiver
-            eventHandler.handleStateChange(state)
+            eventHandler.handleStateChange(state, mood, batteryStatus)
         }
         context.registerReceiver(batteryReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
     }

@@ -10,7 +10,7 @@ import com.nothing.ketchum.GlyphMatrixManager
 import com.nothing.ketchum.GlyphMatrixObject
 import com.nothing.ketchum.GlyphMatrixUtils
 
-fun render(bitmaps: List<Bitmap>, c: Context, gmm: GlyphMatrixManager) {
+fun renderBitmaps(bitmaps: List<Bitmap>, c: Context, gmm: GlyphMatrixManager) {
     val builder = GlyphMatrixFrame.Builder()
     bitmaps.forEachIndexed { index, bitmap ->
         val objectBuilder = GlyphMatrixObject.Builder()
@@ -29,8 +29,12 @@ fun render(bitmaps: List<Bitmap>, c: Context, gmm: GlyphMatrixManager) {
     gmm.setMatrixFrame(builder.build(c).render())
 }
 
+fun render(drawables: List<Drawable>, c: Context, gmm: GlyphMatrixManager) {
+    renderBitmaps(drawables.map { it.toBitmap() }, c, gmm)
+}
+
 fun render(bitmap: Bitmap, c: Context, gmm: GlyphMatrixManager) {
-    render(listOf(bitmap), c, gmm)
+    renderBitmaps(listOf(bitmap), c, gmm)
 }
 
 fun render(drawable: Drawable, c: Context, gmm: GlyphMatrixManager) {

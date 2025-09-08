@@ -57,7 +57,6 @@ class DrawableBuilder(
         val width = (drawable.intrinsicWidth / density).roundToInt()
         val height = (drawable.intrinsicHeight / density).roundToInt()
 
-        Log.d("q", "drawable size: $width × $height")
         drawable.setBounds(
             left,
             top,

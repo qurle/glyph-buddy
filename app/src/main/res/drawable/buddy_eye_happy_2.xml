@@ -3,15 +3,15 @@
     android:viewportHeight="9"
     android:width="7dp"
     android:height="9dp">
-    <path
-        android:pathData="M0 3H6V5H0V3Z"
-        android:fillColor="#FFFFFF" />
     <group
         android:scaleY="-1"
         android:translateX="1"
-        android:translateY="3">
+        android:translateY="1">
         <path
             android:pathData="M0 0H4V1H0V0Z"
             android:fillColor="#FFFFFF" />
     </group>
+    <path
+        android:pathData="M6 3H5V2H1V3H0V1H6V3Z"
+        android:fillColor="#FFFFFF" />
 </vector>

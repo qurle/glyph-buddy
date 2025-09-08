@@ -4,12 +4,12 @@
     android:width="7dp"
     android:height="9dp">
     <path
-        android:pathData="M0 3H6V5H0V3Z"
+        android:pathData="M0 2H6V4H0V2Z"
         android:fillColor="#FFFFFF" />
     <group
         android:scaleY="-1"
         android:translateX="1"
-        android:translateY="3">
+        android:translateY="2">
         <path
             android:pathData="M0 0H4V1H0V0Z"
             android:fillColor="#FFFFFF" />

@@ -2,108 +2,91 @@ package net.qurle.glyphs.toys.buddy
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import com.nothing.ketchum.GlyphMatrixManager
+import kotlinx.coroutines.delay
 import net.qurle.glyphs.R
 import net.qurle.glyphs.toys.buddy.utils.DrawableBuilder
+import net.qurle.glyphs.toys.utils.render
 import kotlin.random.Random
 
 
-class BuddyFace(context: Context) {
+class BuddyFace(
+    private val context: Context,
+    private val gmm: GlyphMatrixManager?,
+) {
 
     private val drawableBuilder = DrawableBuilder(context)
-    private val lEye = Eye(4, 9)
-    private val rEye = Eye(15, 9)
-    private var drawable = this.default()
+    private val lEyePos = Pair(4, 9)
+    private val rEyePos = Pair(14, 9)
 
-    private val default = drawableBuilder
-        .add(R.drawable.buddy_eye_default_open, lEye.left, lEye.top)
-        .clone()
-        .mirror()
-        .build()
+    private var mood = Mood.DEFAULT
+    var faceDrawable = drawFace()
 
-    private val closedR = drawableBuilder
-        .add(R.drawable.buddy_eye_default_open, lEye.left, lEye.top)
-        .add(R.drawable.buddy_eye_default_closed, rEye.left, rEye.top + 2)
-        .build()
 
-    fun default(): Drawable {
-        drawable = drawableBuilder
-            .add(R.drawable.buddy_eye_default_open, lEye.left, lEye.top)
-            .clone()
-            .mirror()
-            .build()
-        return drawable
+    fun drawMood(mood: Mood): Drawable {
+        this.mood = mood
+        return drawFace()
     }
 
-    fun wink(): Drawable {
-        drawable = drawableBuilder
-            .add(R.drawable.buddy_eye_default_open, lEye.left, lEye.top)
-            .add(R.drawable.buddy_eye_default_closed, rEye.left, rEye.top)
-            .build()
-        return drawable
+    suspend fun wink() {
+        drawFace(lEyeClosed = false, rEyeClosed = true)
+        delay(Config.WINK_DURATION)
+        drawFace()
     }
-//
-//    fun blink(): Drawable {
-//        return this
-//    }
 
+    suspend fun blink() {
+        drawFace(lEyeClosed = true, rEyeClosed = true)
+        delay(Config.BLINK_DURATION)
+        drawFace()
+    }
 
-    fun lookAround(): Drawable {
-        val randomNumber =
-            Random.nextDouble()
+    suspend fun lookAround() {
+        val randomNumber = Random.nextDouble()
 
         val direction = when {
-            randomNumber < 0.4 -> -1     // left 40%
-            randomNumber < 0.8 -> 1      // right 40%
+            randomNumber < 0.4 -> -1    // left 40%
+            randomNumber < 0.8 -> 1     // right 40%
             else -> 0                   // up 20%
         }
 
-        return drawableBuilder
-            .add(drawable, 0, 0, drawableBuilder.size, drawableBuilder.size)
-            .move(2 * direction, if (direction == 0) -2 else 0)
+        render(
+            drawableBuilder
+                .add(faceDrawable, 0, 0, drawableBuilder.size, drawableBuilder.size)
+                .move(2 * direction, if (direction == 0) -2 else 0)
+                .build()
+        )
+        delay(Config.LOOK_AROUND_DURATION)
+        drawFace()
+    }
+
+    private fun drawFace(
+        mood: Mood = this.mood,
+        lEyeClosed: Boolean = false,
+        rEyeClosed: Boolean = false,
+    ): Drawable {
+        this.faceDrawable = drawableBuilder
+            .add(getEyeId(mood, lEyeClosed), lEyePos.first, lEyePos.second)
+            .add(getEyeId(mood, rEyeClosed), rEyePos.first, rEyePos.second)
             .build()
+//        render(this.faceDrawable)
+        return this.faceDrawable
     }
 
-    fun tired(tiredness: Int = 1): Drawable {
-        when (tiredness) {
-            1 -> {
-                drawable = drawableBuilder
-                    .add(R.drawable.buddy_eye_tired_1_open, lEye.left, lEye.top)
-                    .clone()
-                    .mirror()
-                    .build()
-                return drawable
-            }
-
-            2 -> {
-                drawable = drawableBuilder
-                    .add(R.drawable.buddy_eye_tired_2_open, lEye.left, lEye.top)
-                    .move(1, 1)
-                    .clone()
-                    .mirror()
-                    .build()
-                return drawable
-            }
-
-            3 -> {
-                drawable = drawableBuilder
-                    .add(R.drawable.buddy_eye_tired_3, lEye.left, lEye.top)
-                    .opacity(0.5f)
-                    .move(1, 2)
-                    .clone()
-                    .mirror()
-                    .build()
-                return drawable
-            }
-
-            else -> return default()
+    private fun getEyeId(mood: Mood = this.mood, closed: Boolean = false): Int {
+        val eyeDrawable = when (mood) {
+            Mood.HAPPY_2 -> if (closed) R.drawable.buddy_eye_happy_2_closed else R.drawable.buddy_eye_happy_2
+            Mood.HAPPY_1 -> if (closed) R.drawable.buddy_eye_happy_1_closed else R.drawable.buddy_eye_happy_1
+            Mood.TIRED_1 -> if (closed) R.drawable.buddy_eye_tired_1_closed else R.drawable.buddy_eye_tired_1
+            Mood.TIRED_2 -> if (closed) R.drawable.buddy_eye_tired_2_closed else R.drawable.buddy_eye_tired_2
+            Mood.TIRED_3 -> R.drawable.buddy_eye_tired_3
+            else -> if (closed) R.drawable.buddy_eye_default_closed else R.drawable.buddy_eye_default
         }
+        return eyeDrawable
     }
 
+    private fun render(drawable: Drawable = this.faceDrawable) {
+        if (this.gmm === null) return
+        render(drawable, this.context, this.gmm)
+    }
 }
 
-class Eye(
-    val left: Int,
-    val top: Int,
-    width: Int? = null,
-    height: Int? = null
-)

@@ -43,7 +43,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             text = "Hello $name!"
         )
         Image(
-            bitmap = BuddyFace(LocalContext.current).lookAround().toBitmap().asImageBitmap(),
+            bitmap = BuddyFace(LocalContext.current, null).faceDrawable.toBitmap().asImageBitmap(),
             contentDescription = "some useful description",
         )
 
