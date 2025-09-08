@@ -1,6 +1,5 @@
 package net.qurle.glyphs.toys.buddy
 
-import ArcDrawable
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Log

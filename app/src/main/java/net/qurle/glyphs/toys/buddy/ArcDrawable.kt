@@ -1,10 +1,11 @@
+package net.qurle.glyphs.toys.buddy
+
 import android.graphics.Canvas
 import android.graphics.ColorFilter
 import android.graphics.Paint
 import android.graphics.PixelFormat
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
-import net.qurle.glyphs.toys.buddy.Config
 
 class ArcDrawable(
     private var progress: Int = 0,
